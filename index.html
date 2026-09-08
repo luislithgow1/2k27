@@ -197,24 +197,68 @@
         .logout {
             margin-top: 10px;
         }
+  /* =========================================
+   VERSION MOVIL
+   Mantener apariencia de escritorio
+========================================= */
 
-        @media(max-width:700px) {
+@media(max-width:700px){
 
-            input,
-            select,
-            button {
-                width: 90%;
-            }
+    body{
+        min-width:1000px;
+        text-align:center;
+    }
 
-            table {
-                font-size: 12px;
-            }
+    .container{
+        width:95%;
+        max-width:1200px;
+        margin:auto;
+    }
 
-            .card {
-                width: 90%;
-            }
+    h1{
+        font-size:28px;
+    }
 
-        }
+    .panel{
+        max-width:800px;
+        margin:20px auto;
+    }
+
+    input,
+    select,
+    button{
+        width:auto;
+        padding:10px;
+        margin:5px;
+    }
+
+    table{
+        width:100%;
+        font-size:14px;
+    }
+
+    th,
+    td{
+        padding:9px;
+        white-space:nowrap;
+    }
+
+    .card-container{
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .card{
+        width:270px;
+        min-width:270px;
+        height:440px;
+        margin:15px;
+    }
+
+}
+        
     </style>
 </head>
 
