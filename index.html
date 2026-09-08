@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liga NBA 2K26 ELITE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0e0e0e;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+        .panel {
+            background: #171717;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        input,
+        button,
+        select {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 6px;
+            border: 1px solid #444;
+        }
+
+        input,
+        select {
+            background: #222;
+            color: white;
+        }
+
+        button {
+            background: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button.secondary {
+            background: #444;
+        }
+
+        button.success {
+            background: #008f5a;
+        }
+
+        button.danger {
+            background: #b30000;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .success-msg {
+            background: #063d28;
+            color: #00ff88;
+        }
+
+        .error-msg {
+            background: #400909;
+            color: #ff6b6b;
+        }
+
+        .code-box {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            padding: 15px;
+            margin: 15px auto;
+            background: #050505;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            max-width: 350px;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #444;
+            padding: 9px;
+        }
+
+        th {
+            background: #1a1a1a;
+        }
+
+        tr:hover {
+            background: #191919;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            width: 270px;
+            min-height: 440px;
+            padding: 15px;
+            margin: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .9);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .card-overlay {
+            background: rgba(0, 0, 0, .78);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .green {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .red {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .yellow {
+            color: #ffd633;
+            font-weight: bold;
+        }
+
+        .prediction {
+            margin-top: 6px;
+            font-size: 13px;
+            background: #111;
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        .match {
+            background: #181818;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px auto;
+            max-width: 700px;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .logout {
+            margin-top: 10px;
+        }
+
+        @media(max-width:700px) {
+
+            input,
+            select,
+            button {
+                width: 90%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            .card {
+                width: 90%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🏀 Liga NBA 2K26 ELITE</h1>
+
+        <!-- ========================= -->
+        <!-- REGISTRO -->
+        <!-- ========================= -->
+
+        <div id="registerPanel" class="panel">
+
+            <h2>👤 Registrarse</h2>
+
+            <input type="text" id="registerName" placeholder="Nombre del jugador">
+
+            <input type="tel" id="registerWhatsapp" placeholder="Número de WhatsApp">
+
+            <button onclick="registerPlayer()">
+                Crear cuenta
+            </button>
+
+            <p class="small">
+                Tu número de WhatsApp será utilizado para identificar tu cuenta.
+            </p>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- LOGIN -->
+        <!-- ========================= -->
+
+        <div id="loginPanel" class="panel">
+
+            <h2>🔐 Iniciar sesión</h2>
+
+            <input type="tel" id="loginWhatsapp" placeholder="Número de WhatsApp">
+
+            <button onclick="loginPlayer()">
+                Entrar
+            </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- USUARIO -->
+        <!-- ========================= -->
+
+        <div id="userPanel" class="panel hidden">
+
+            <h2>👤 Mi cuenta</h2>
+
+            <div id="currentUser"></div>
+
+            <button class="secondary" onclick="logout()">
+                Cerrar sesión
+            </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- CREAR PARTIDO -->
+        <!-- ========================= -->
+
+        <div id="createMatchPanel" class="panel hidden">
+
+            <h2>🏀 Crear partido</h2>
+
+            <p>
+                Selecciona tu rival para generar un código único.
+            </p>
+
+            <select id="opponentSelect"></select>
+
+            <br>
+
+            <button onclick="createMatchCode()">
+                🔐 Generar código
+            </button>
+
+            <div id="generatedCodeArea"></div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- UNIRSE A PARTIDO -->
+        <!-- ========================= -->
+
+        <div id="joinMatchPanel" class="panel hidden">
+
+            <h2>🎟️ Unirse a un partido</h2>
+
+            <input type="text" id="matchCodeInput" placeholder="PT-XXXX-XX" maxlength="10">
+
+            <br>
+
+            <button onclick="joinMatch()">
+                Aceptar partido
+            </button>
+
+            <div id="joinResult"></div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- REGISTRAR RESULTADO -->
+        <!-- ========================= -->
+
+        <div id="resultPanel" class="panel hidden">
+
+            <h2>🏆 Registrar resultado</h2>
+
+            <select id="resultMatchSelect"></select>
+
+            <br>
+
+            <input type="number" id="resultScore1" placeholder="Puntos jugador 1" min="0">
+
+            <input type="number" id="resultScore2" placeholder="Puntos jugador 2" min="0">
+
+            <br>
+
+            <button class="success" onclick="saveResult()">
+                Guardar resultado
+            </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- TABLA -->
+        <!-- ========================= -->
+
+        <h2>📊 Tabla de Posiciones</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Jugador</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>Puntos</th>
+                    <th>%</th>
+                    <th>Diff Total</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="standings"></tbody>
+
+        </table>
+
+
+        <!-- ========================= -->
+        <!-- JUGADORES -->
+        <!-- ========================= -->
+
+        <h2>👥 Jugadores</h2>
+
+        <div class="card-container" id="cards">
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- HISTORIAL -->
+        <!-- ========================= -->
+
+        <h2>📜 Partidos</h2>
+
+        <div id="matchesList"></div>
+
+    </div>
+
+
+    <script type="module">
+
+        import {
+            initializeApp
+        }
+            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+        import {
+            getDatabase,
+            ref,
+            push,
+            set,
+            get,
+            update,
+            onValue
+        }
+            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+
+        /* =========================================
+           FIREBASE
+        ========================================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyB8oEVWDRvMF4J5CzCcs2-th4pa6za-hm8",
+
+            authDomain:
+                "liga-nba2k26.firebaseapp.com",
+
+            databaseURL:
+                "https://liga-nba2k26-default-rtdb.firebaseio.com",
+
+            projectId:
+                "liga-nba2k26",
+
+            storageBucket:
+                "liga-nba2k26.firebasestorage.app",
+
+            messagingSenderId:
+                "277332835931",
+
+            appId:
+                "1:277332835931:web:cdf080c6cc4fc312cc497e"
+
+        };
+
+        const app =
+            initializeApp(firebaseConfig);
+
+        const database =
+            getDatabase(app);
+
+
+        /* =========================================
+           REFERENCIAS
+        ========================================= */
+
+        const playersRef =
+            ref(database, "players");
+
+        const matchesRef =
+            ref(database, "matches");
+
+        const codesRef =
+            ref(database, "matchCodes");
+
+
+        /* =========================================
+           VARIABLES
+        ========================================= */
+
+        let players = [];
+
+        let matches = [];
+
+        let currentUser = null;
+
+
+        /* =========================================
+           CARGAR JUGADORES
+        ========================================= */
+
+        onValue(playersRef, (snapshot) => {
+
+            const data = snapshot.val();
+
+            if (data) {
+
+                players =
+                    Object.entries(data)
+                        .map(([id, p]) => ({
+                            id,
+                            ...p
+                        }));
+
+            } else {
+
+                players = [];
+
+            }
+
+            recomputeAllStats();
+
+            updateUI();
+
+        });
+
+
+        /* =========================================
+           CARGAR PARTIDOS
+        ========================================= */
+
+        onValue(matchesRef, (snapshot) => {
+
+            const data = snapshot.val();
+
+            if (data) {
+
+                matches =
+                    Object.entries(data)
+                        .map(([id, m]) => ({
+                            id,
+                            ...m
+                        }));
+
+            } else {
+
+                matches = [];
+
+            }
+
+            recomputeAllStats();
+
+            updateUI();
+
+        });
+
+
+        /* =========================================
+           REGISTRO
+        ========================================= */
+
+        window.registerPlayer =
+            async function () {
+
+                const name =
+                    document
+                        .getElementById("registerName")
+                        .value
+                        .trim();
+
+                const whatsapp =
+                    normalizePhone(
+                        document
+                            .getElementById("registerWhatsapp")
+                            .value
+                    );
+
+
+                if (!name || !whatsapp) {
+
+                    alert(
+                        "Introduce tu nombre y número de WhatsApp."
+                    );
+
+                    return;
+
+                }
+
+
+                /* Evitar duplicados */
+
+                const existing =
+                    players.find(
+                        p => p.whatsapp === whatsapp
+                    );
+
+                if (existing) {
+
+                    alert(
+                        "Este número de WhatsApp ya está registrado."
+                    );
+
+                    return;
+
+                }
+
+
+                const newPlayerRef =
+                    push(playersRef);
+
+
+                const playerCode =
+                    generatePlayerCode();
+
+
+                await set(
+                    newPlayerRef,
+                    {
+
+                        name: name,
+
+                        whatsapp: whatsapp,
+
+                        playerCode: playerCode,
+
+                        wins: 0,
+
+                        losses: 0,
+
+                        points: 0,
+
+                        totalDiff: 0,
+
+                        image: "",
+
+                        createdAt: Date.now()
+
+                    }
+                );
+
+
+                alert(
+                    "Cuenta creada correctamente.\n\n" +
+                    "Tu código de jugador es:\n" +
+                    playerCode
+                );
+
+
+                document
+                    .getElementById("registerName")
+                    .value = "";
+
+                document
+                    .getElementById("registerWhatsapp")
+                    .value = "";
+
+            };
+
+
+        /* =========================================
+           LOGIN
+        ========================================= */
+
+        window.loginPlayer =
+            function () {
+
+                const whatsapp =
+                    normalizePhone(
+                        document
+                            .getElementById("loginWhatsapp")
+                            .value
+                    );
+
+
+                const player =
+                    players.find(
+                        p => p.whatsapp === whatsapp
+                    );
+
+
+                if (!player) {
+
+                    alert(
+                        "No existe un jugador registrado con ese número."
+                    );
+
+                    return;
+
+                }
+
+
+                currentUser = player;
+
+                localStorage.setItem(
+                    "nba2kUserId",
+                    player.id
+                );
+
+
+                updateAccountUI();
+
+            };
+
+
+        /* =========================================
+           RECUPERAR SESION
+        ========================================= */
+
+        function restoreSession() {
+
+            const id =
+                localStorage.getItem(
+                    "nba2kUserId"
+                );
+
+            if (!id) return;
+
+
+            const player =
+                players.find(
+                    p => p.id === id
+                );
+
+
+            if (player) {
+
+                currentUser = player;
+
+                updateAccountUI();
+
+            }
+
+        }
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        window.logout =
+            function () {
+
+                currentUser = null;
+
+                localStorage.removeItem(
+                    "nba2kUserId"
+                );
+
+                updateAccountUI();
+
+            };
+
+
+        /* =========================================
+           CREAR CODIGO DE PARTIDO
+        ========================================= */
+
+        window.createMatchCode =
+            async function () {
+
+                if (!currentUser) {
+
+                    alert(
+                        "Debes iniciar sesión."
+                    );
+
+                    return;
+
+                }
+
+
+                const opponentId =
+                    document
+                        .getElementById("opponentSelect")
+                        .value;
+
+
+                if (!opponentId) {
+
+                    alert(
+                        "Selecciona un rival."
+                    );
+
+                    return;
+
+                }
+
+
+                if (opponentId === currentUser.id) {
+
+                    alert(
+                        "No puedes jugar contra ti mismo."
+                    );
+
+                    return;
+
+                }
+
+
+                const opponent =
+                    players.find(
+                        p => p.id === opponentId
+                    );
+
+
+                if (!opponent) return;
+
+
+                const code =
+                    generateMatchCode();
+
+
+                const expiresAt =
+                    Date.now() +
+                    (30 * 60 * 1000);
+
+
+                const codeRef =
+                    push(codesRef);
+
+
+                await set(
+                    codeRef,
+                    {
+
+                        code: code,
+
+                        creatorId: currentUser.id,
+
+                        opponentId: opponent.id,
+
+                        status: "pending",
+
+                        createdAt: Date.now(),
+
+                        expiresAt: expiresAt,
+
+                        used: false
+
+                    }
+                );
+
+
+                const shareText =
+                    `🏀 Liga NBA 2K26 ELITE
+
+${currentUser.name} te ha invitado a jugar.
+
+Código del partido:
+
+${code}
+
+El código es de un solo uso y expira en 30 minutos.`;
+
+
+                const whatsappUrl =
+                    "https://wa.me/" +
+                    opponent.whatsapp +
+                    "?text=" +
+                    encodeURIComponent(shareText);
+
+
+                document
+                    .getElementById("generatedCodeArea")
+                    .innerHTML = `
+
+        <div class="code-box">
+            ${code}
+        </div>
+
+        <p>
+            Código generado correctamente.
+        </p>
+
+        <p class="small">
+            Expira en 30 minutos.
+        </p>
+
+        <button onclick="copyCode('${code}')">
+            📋 Copiar código
+        </button>
+
+        <a
+            href="${whatsappUrl}"
+            target="_blank"
+        >
+            <button>
+                📲 Enviar por WhatsApp
+            </button>
+        </a>
+
+    `;
+
+            };
+
+
+        /* =========================================
+           ACEPTAR CODIGO
+        ========================================= */
+
+        window.joinMatch =
+            async function () {
+
+                if (!currentUser) {
+
+                    alert(
+                        "Debes iniciar sesión."
+                    );
+
+                    return;
+
+                }
+
+
+                const code =
+                    document
+                        .getElementById("matchCodeInput")
+                        .value
+                        .trim()
+                        .toUpperCase();
+
+
+                if (!code) {
+
+                    alert(
+                        "Introduce el código."
+                    );
+
+                    return;
+
+                }
+
+
+                const snapshot =
+                    await get(codesRef);
+
+
+                const data =
+                    snapshot.val();
+
+
+                if (!data) {
+
+                    alert(
+                        "Código inválido."
+                    );
+
+                    return;
+
+                }
+
+
+                let foundId = null;
+
+                let foundCode = null;
+
+
+                for (
+                    const [id, c] of Object.entries(data)
+                ) {
+
+                    if (c.code === code) {
+
+                        foundId = id;
+
+                        foundCode = c;
+
+                        break;
+
+                    }
+
+                }
+
+
+                if (!foundCode) {
+
+                    alert(
+                        "Código inválido."
+                    );
+
+                    return;
+
+                }
+
+
+                /* Código ya utilizado */
+
+                if (foundCode.used ||
+                    foundCode.status !== "pending") {
+
+                    alert(
+                        "Este código ya fue utilizado."
+                    );
+
+                    return;
+
+                }
+
+
+                /* Código expirado */
+
+                if (
+                    Date.now() >
+                    Number(foundCode.expiresAt)
+                ) {
+
+                    await update(
+                        ref(database, `matchCodes/${foundId}`),
+                        {
+
+                            status: "expired"
+
+                        }
+                    );
+
+
+                    alert(
+                        "Este código ha expirado."
+                    );
+
+                    return;
+
+                }
+
+
+                /* Verificar que el receptor sea el rival */
+
+                if (
+                    foundCode.opponentId !==
+                    currentUser.id
+                ) {
+
+                    alert(
+                        "Este código fue generado para otro jugador."
+                    );
+
+                    return;
+
+                }
+
+
+                /* =====================================
+                   CREAR PARTIDO
+                ===================================== */
+
+                const newMatchRef =
+                    push(matchesRef);
+
+
+                await set(
+                    newMatchRef,
+                    {
+
+                        p1Id:
+                            foundCode.creatorId,
+
+                        p2Id:
+                            foundCode.opponentId,
+
+                        p1:
+                            players.find(
+                                p => p.id === foundCode.creatorId
+                            ).name,
+
+                        p2:
+                            currentUser.name,
+
+                        s1: null,
+
+                        s2: null,
+
+                        status: "confirmed",
+
+                        createdAt: Date.now(),
+
+                        codeId: foundId
+
+                    }
+                );
+
+
+                /* =====================================
+                   INVALIDAR CODIGO
+                ===================================== */
+
+                await update(
+                    ref(
+                        database,
+                        `matchCodes/${foundId}`
+                    ),
+                    {
+
+                        used: true,
+
+                        status: "used",
+
+                        usedBy: currentUser.id,
+
+                        usedAt: Date.now()
+
+                    }
+                );
+
+
+                document
+                    .getElementById("joinResult")
+                    .innerHTML = `
+
+        <div class="status success-msg">
+
+        ✅ Partido confirmado.
+
+        </div>
+
+    `;
+
+
+                document
+                    .getElementById("matchCodeInput")
+                    .value = "";
+
+            };
+
+
+        /* =========================================
+           GUARDAR RESULTADO
+        ========================================= */
+
+        window.saveResult =
+            async function () {
+
+                if (!currentUser) {
+
+                    alert(
+                        "Debes iniciar sesión."
+                    );
+
+                    return;
+
+                }
+
+
+                const matchId =
+                    document
+                        .getElementById("resultMatchSelect")
+                        .value;
+
+
+                const score1 =
+                    parseInt(
+                        document
+                            .getElementById("resultScore1")
+                            .value
+                    );
+
+
+                const score2 =
+                    parseInt(
+                        document
+                            .getElementById("resultScore2")
+                            .value
+                    );
+
+
+                if (
+                    !matchId ||
+                    isNaN(score1) ||
+                    isNaN(score2)
+                ) {
+
+                    alert(
+                        "Introduce un resultado válido."
+                    );
+
+                    return;
+
+                }
+
+
+                if (score1 === score2) {
+
+                    alert(
+                        "El partido no puede terminar empatado."
+                    );
+
+                    return;
+
+                }
+
+
+                const match =
+                    matches.find(
+                        m => m.id === matchId
+                    );
+
+
+                if (!match) return;
+
+
+                if (match.status !== "confirmed") {
+
+                    alert(
+                        "Este partido no está disponible."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    match.p1Id !== currentUser.id &&
+                    match.p2Id !== currentUser.id
+                ) {
+
+                    alert(
+                        "No puedes modificar este partido."
+                    );
+
+                    return;
+
+                }
+
+
+                await update(
+                    ref(
+                        database,
+                        `matches/${matchId}`
+                    ),
+                    {
+
+                        s1: score1,
+
+                        s2: score2,
+
+                        status: "completed",
+
+                        completedAt: Date.now(),
+
+                        recordedBy: currentUser.id
+
+                    }
+                );
+
+
+                document
+                    .getElementById("resultScore1")
+                    .value = "";
+
+                document
+                    .getElementById("resultScore2")
+                    .value = "";
+
+
+                alert(
+                    "Resultado guardado correctamente."
+                );
+
+            };
+
+
+        /* =========================================
+           RECALCULAR ESTADISTICAS
+        ========================================= */
+
+        function recomputeAllStats() {
+
+            players.forEach(p => {
+
+                p.wins = 0;
+
+                p.losses = 0;
+
+                p.points = 0;
+
+                p.totalDiff = 0;
+
+            });
+
+
+            matches.forEach(m => {
+
+                if (
+                    m.status !== "completed"
+                ) return;
+
+
+                const p1 =
+                    players.find(
+                        p => p.id === m.p1Id
+                    );
+
+
+                const p2 =
+                    players.find(
+                        p => p.id === m.p2Id
+                    );
+
+
+                if (!p1 || !p2) return;
+
+
+                const s1 =
+                    Number(m.s1);
+
+                const s2 =
+                    Number(m.s2);
+
+
+                if (
+                    isNaN(s1) ||
+                    isNaN(s2)
+                ) return;
+
+
+                p1.totalDiff +=
+                    s1 - s2;
+
+                p2.totalDiff +=
+                    s2 - s1;
+
+
+                if (s1 > s2) {
+
+                    p1.wins++;
+
+                    p1.points += 3;
+
+                    p2.losses++;
+
+                } else {
+
+                    p2.wins++;
+
+                    p2.points += 3;
+
+                    p1.losses++;
+
+                }
+
+            });
+
+        }
+
+
+        /* =========================================
+           UI
+        ========================================= */
+
+        function updateUI() {
+
+            updateOpponentSelect();
+
+            updateResultSelect();
+
+            updateStandings();
+
+            updateCards();
+
+            updateMatches();
+
+            restoreSession();
+
+        }
+
+
+        /* =========================================
+           SELECT RIVAL
+        ========================================= */
+
+        function updateOpponentSelect() {
+
+            const select =
+                document
+                    .getElementById(
+                        "opponentSelect"
+                    );
+
+
+            if (!select) return;
+
+
+            select.innerHTML =
+                `<option value="">
+            Selecciona rival
+        </option>`;
+
+
+            players
+                .filter(
+                    p =>
+                        !currentUser ||
+                        p.id !== currentUser.id
+                )
+                .sort(
+                    (a, b) =>
+                        a.name.localeCompare(b.name)
+                )
+                .forEach(p => {
+
+                    select.innerHTML += `
+
+            <option value="${p.id}">
+                ${escapeHtml(p.name)}
+            </option>
+
+        `;
+
+                });
+
+        }
+
+
+        /* =========================================
+           PARTIDOS DISPONIBLES PARA RESULTADO
+        ========================================= */
+
+        function updateResultSelect() {
+
+            const select =
+                document
+                    .getElementById(
+                        "resultMatchSelect"
+                    );
+
+
+            if (!select) return;
+
+
+            select.innerHTML =
+                `<option value="">
+            Selecciona partido
+        </option>`;
+
+
+            if (!currentUser) return;
+
+
+            matches
+                .filter(
+                    m =>
+                        m.status === "confirmed" &&
+                        (
+                            m.p1Id === currentUser.id ||
+                            m.p2Id === currentUser.id
+                        )
+                )
+                .forEach(m => {
+
+                    select.innerHTML += `
+
+            <option value="${m.id}">
+
+                ${escapeHtml(m.p1)}
+                vs
+                ${escapeHtml(m.p2)}
+
+            </option>
+
+        `;
+
+                });
+
+        }
+
+
+        /* =========================================
+           TABLA
+        ========================================= */
+
+        function updateStandings() {
+
+            const standings =
+                document
+                    .getElementById(
+                        "standings"
+                    );
+
+
+            standings.innerHTML = "";
+
+
+            const sorted =
+                [...players].sort(
+                    (a, b) => {
+
+                        const totalA =
+                            a.wins + a.losses;
+
+                        const totalB =
+                            b.wins + b.losses;
+
+
+                        const pctA =
+                            totalA === 0
+                                ? 0
+                                : a.wins / totalA;
+
+
+                        const pctB =
+                            totalB === 0
+                                ? 0
+                                : b.wins / totalB;
+
+
+                        if (
+                            Math.abs(
+                                pctA - pctB
+                            ) > 0.0001
+                        ) {
+
+                            return pctB - pctA;
+
+                        }
+
+
+                        return (
+                            b.totalDiff -
+                            a.totalDiff
+                        );
+
+                    }
+                );
+
+
+            sorted.forEach(
+                (p, index) => {
+
+                    const total =
+                        p.wins + p.losses;
+
+
+                    const pct =
+                        total > 0
+                            ? (
+                                p.wins /
+                                total *
+                                100
+                            ).toFixed(1)
+                            : 0;
+
+
+                    let icon = "⚔️";
+
+
+                    if (index === 0)
+                        icon = "🥇";
+
+                    else if (index === 1)
+                        icon = "🥈";
+
+                    else if (index === 2)
+                        icon = "🥉";
+
+                    else if (index < 4)
+                        icon = "🔥";
+
+
+                    standings.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${icon}
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(p.name)}
+                    </td>
+
+                    <td>
+                        ${p.wins}
+                    </td>
+
+                    <td>
+                        ${p.losses}
+                    </td>
+
+                    <td>
+                        ${p.points}
+                    </td>
+
+                    <td>
+                        ${pct}%
+                    </td>
+
+                    <td>
+                        ${p.totalDiff}
+                    </td>
+
+                </tr>
+
+            `;
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           TARJETAS
+        ========================================= */
+
+        function updateCards() {
+
+            const cards =
+                document.getElementById(
+                    "cards"
+                );
+
+
+            cards.innerHTML = "";
+
+
+            players.forEach(p => {
+
+                const total =
+                    p.wins + p.losses;
+
+
+                const winPercent =
+                    total > 0
+                        ? p.wins / total
+                        : 0;
+
+
+                let vsStats = {};
+
+
+                matches.forEach(m => {
+
+                    if (
+                        m.status !== "completed"
+                    ) return;
+
+
+                    if (
+                        m.p1Id !== p.id &&
+                        m.p2Id !== p.id
+                    ) return;
+
+
+                    const rivalId =
+                        m.p1Id === p.id
+                            ? m.p2Id
+                            : m.p1Id;
+
+
+                    const rival =
+                        players.find(
+                            x => x.id === rivalId
+                        );
+
+
+                    if (!rival) return;
+
+
+                    if (!vsStats[rival.id]) {
+
+                        vsStats[rival.id] = {
+
+                            name: rival.name,
+
+                            wins: 0,
+
+                            losses: 0,
+
+                            pointDiff: 0,
+
+                            totalGames: 0
+
+                        };
+
+                    }
+
+
+                    const myScore =
+                        m.p1Id === p.id
+                            ? Number(m.s1)
+                            : Number(m.s2);
+
+
+                    const rivalScore =
+                        m.p1Id === p.id
+                            ? Number(m.s2)
+                            : Number(m.s1);
+
+
+                    const diff =
+                        Math.abs(
+                            myScore - rivalScore
+                        );
+
+
+                    if (myScore > rivalScore) {
+
+                        vsStats[rival.id].wins++;
+
+                        vsStats[rival.id].pointDiff += diff;
+
+                    } else {
+
+                        vsStats[rival.id].losses++;
+
+                        vsStats[rival.id].pointDiff -= diff;
+
+                    }
+
+
+                    vsStats[rival.id].totalGames++;
+
+                });
+
+
+                let vsHtml = "";
+
+
+                for (
+                    const rivalId
+                    in vsStats
+                ) {
+
+                    const stat =
+                        vsStats[rivalId];
+
+
+                    const h2h =
+                        stat.totalGames > 0
+                            ?
+                            stat.wins /
+                            stat.totalGames
+                            : 0;
+
+
+                    const prediction =
+                        (
+                            winPercent * 0.5 +
+                            h2h * 0.5
+                        ) * 100;
+
+
+                    let color = "yellow";
+
+
+                    if (
+                        stat.wins >
+                        stat.losses
+                    )
+                        color = "green";
+
+
+                    else if (
+                        stat.wins <
+                        stat.losses
+                    )
+                        color = "red";
+
+
+                    vsHtml += `
+
+                <div>
+
+                    Vs
+                    ${escapeHtml(
+                        stat.name
+                    )}:
+
+                    <span
+                        class="${color}"
+                    >
+                        ${stat.wins}
+                        -
+                        ${stat.losses}
+                    </span>
+
+                    (Diff:
+                    ${stat.pointDiff})
+
+                    <div class="prediction">
+
+                        Probabilidad estimada:
+                        ${prediction.toFixed(1)}%
+
+                    </div>
+
+                </div>
+
+            `;
+
+                }
+
+
+                const bg =
+                    p.image &&
+                        p.image.trim() !== ""
+                        ?
+                        p.image
+                        :
+                        "https://via.placeholder.com/300x400?text=Sin+Imagen";
+
+
+                cards.innerHTML += `
+
+            <div
+                class="card"
+                style="
+                background-image:
+                url('${escapeHtml(bg)}')
+                "
+            >
+
+                <div class="card-overlay">
+
+                    <h3>
+                        ${escapeHtml(p.name)}
+                    </h3>
+
+                    <div>
+                        Victorias:
+                        ${p.wins}
+                    </div>
+
+                    <div>
+                        Derrotas:
+                        ${p.losses}
+                    </div>
+
+                    <div>
+                        % Global:
+                        ${(winPercent * 100).toFixed(1)}%
+                    </div>
+
+                    <div>
+                        Dif. Total:
+                        ${p.totalDiff}
+                    </div>
+
+                    <hr>
+
+                    ${vsHtml ||
+                    "Sin enfrentamientos aún"
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+            });
+
+        }
+
+
+        /* =========================================
+           HISTORIAL
+        ========================================= */
+
+        function updateMatches() {
+
+            const container =
+                document.getElementById(
+                    "matchesList"
+                );
+
+
+            container.innerHTML = "";
+
+
+            const completed =
+                matches
+                    .filter(
+                        m =>
+                            m.status === "completed"
+                    )
+                    .sort(
+                        (a, b) =>
+                            Number(
+                                b.completedAt || 0
+                            ) -
+                            Number(
+                                a.completedAt || 0
+                            )
+                    );
+
+
+            if (completed.length === 0) {
+
+                container.innerHTML =
+                    `<p class="small">
+                Todavía no hay partidos registrados.
+            </p>`;
+
+                return;
+
+            }
+
+
+            completed.forEach(m => {
+
+                container.innerHTML += `
+
+            <div class="match">
+
+                <strong>
+
+                    ${escapeHtml(m.p1)}
+
+                    ${m.s1}
+
+                    -
+
+                    ${m.s2}
+
+                    ${escapeHtml(m.p2)}
+
+                </strong>
+
+                <div class="small">
+
+                    Partido completado
+
+                </div>
+
+            </div>
+
+        `;
+
+            });
+
+        }
+
+
+        /* =========================================
+           CUENTA UI
+        ========================================= */
+
+        function updateAccountUI() {
+
+            const register =
+                document.getElementById(
+                    "registerPanel"
+                );
+
+            const login =
+                document.getElementById(
+                    "loginPanel"
+                );
+
+            const userPanel =
+                document.getElementById(
+                    "userPanel"
+                );
+
+            const create =
+                document.getElementById(
+                    "createMatchPanel"
+                );
+
+            const join =
+                document.getElementById(
+                    "joinMatchPanel"
+                );
+
+            const result =
+                document.getElementById(
+                    "resultPanel"
+                );
+
+
+            if (currentUser) {
+
+                register.classList.add(
+                    "hidden"
+                );
+
+                login.classList.add(
+                    "hidden"
+                );
+
+                userPanel.classList.remove(
+                    "hidden"
+                );
+
+                create.classList.remove(
+                    "hidden"
+                );
+
+                join.classList.remove(
+                    "hidden"
+                );
+
+                result.classList.remove(
+                    "hidden"
+                );
+
+
+                document
+                    .getElementById(
+                        "currentUser"
+                    )
+                    .innerHTML = `
+
+            <h3>
+                ${escapeHtml(
+                        currentUser.name
+                    )}
+            </h3>
+
+            <p>
+                WhatsApp:
+                ${escapeHtml(
+                        currentUser.whatsapp
+                    )}
+            </p>
+
+            <p>
+                Código de jugador:
+            </p>
+
+            <div class="code-box">
+                ${escapeHtml(
+                        currentUser.playerCode
+                    )}
+            </div>
+
+        `;
+
+            } else {
+
+                register.classList.remove(
+                    "hidden"
+                );
+
+                login.classList.remove(
+                    "hidden"
+                );
+
+                userPanel.classList.add(
+                    "hidden"
+                );
+
+                create.classList.add(
+                    "hidden"
+                );
+
+                join.classList.add(
+                    "hidden"
+                );
+
+                result.classList.add(
+                    "hidden"
+                );
+
+            }
+
+
+            updateOpponentSelect();
+
+            updateResultSelect();
+
+        }
+
+
+        /* =========================================
+           COPIAR CODIGO
+        ========================================= */
+
+        window.copyCode =
+            async function (code) {
+
+                try {
+
+                    await navigator.clipboard
+                        .writeText(code);
+
+                    alert(
+                        "Código copiado."
+                    );
+
+                } catch {
+
+                    alert(
+                        "No se pudo copiar automáticamente."
+                    );
+
+                }
+
+            };
+
+
+        /* =========================================
+           NORMALIZAR TELEFONO
+        ========================================= */
+
+        function normalizePhone(phone) {
+
+            return String(phone || "")
+                .replace(/\D/g, "");
+
+        }
+
+
+        /* =========================================
+           GENERAR CODIGO JUGADOR
+        ========================================= */
+
+        function generatePlayerCode() {
+
+            const chars =
+                "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+            let code = "";
+
+
+            for (
+                let i = 0;
+                i < 6;
+                i++
+            ) {
+
+                code +=
+                    chars[
+                    Math.floor(
+                        Math.random() *
+                        chars.length
+                    )
+                    ];
+
+            }
+
+
+            return "USR-" + code;
+
+        }
+
+
+        /* =========================================
+           GENERAR CODIGO PARTIDO
+        ========================================= */
+
+        function generateMatchCode() {
+
+            const chars =
+                "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+            let part1 = "";
+
+            let part2 = "";
+
+
+            for (
+                let i = 0;
+                i < 4;
+                i++
+            ) {
+
+                part1 +=
+                    chars[
+                    Math.floor(
+                        Math.random() *
+                        chars.length
+                    )
+                    ];
+
+            }
+
+
+            for (
+                let i = 0;
+                i < 2;
+                i++
+            ) {
+
+                part2 +=
+                    chars[
+                    Math.floor(
+                        Math.random() *
+                        chars.length
+                    )
+                    ];
+
+            }
+
+
+            return `PT-${part1}-${part2}`;
+
+        }
+
+
+        /* =========================================
+           ESCAPAR HTML
+        ========================================= */
+
+        function escapeHtml(str) {
+
+            if (
+                str === undefined ||
+                str === null
+            )
+                return "";
+
+
+            return String(str)
+                .replace(
+                    /[&<>"']/g,
+                    function (m) {
+
+                        return {
+
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            '"': "&quot;",
+                            "'": "&#039;"
+
+                        }[m];
+
+                    }
+                );
+
+        }
+
+
+        /* =========================================
+           INICIALIZAR
+        ========================================= */
+
+        setTimeout(() => {
+
+            restoreSession();
+
+            updateUI();
+
+        }, 500);
+
+    </script>
+
+</body>
+
+</html>
